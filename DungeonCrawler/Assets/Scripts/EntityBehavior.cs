@@ -1,33 +1,40 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EntityBehavior : MonoBehaviour
 {
+    [FormerlySerializedAs("Health")] public int MaxHealth;
     public float MainAttackCooldown = 2;
-
     public float SpecialAttackCooldown = 10;
+    public int MainAttackDamage = 6;
+    protected float mainAttackTimer = 0;
+    protected float specialAttackTimer = 0;
+    protected bool mainAttackReady = false;
+    protected bool specialAttackReady = false;
+    protected int currentHealth;
+    /// <summary>
+    /// Previous Health, Current Health, Max Health
+    /// </summary>
+    public Action<float, float, float> OnHealthChanged;
 
-    public float MainAttackDamage = 6;
-
-    private float mainAttackTimer = 0;
-    private float specialAttackTimer = 0;
-
+    public Action<EntityBehavior> OnDeath;
     protected virtual void Awake()
     {
+        currentHealth = MaxHealth;
         mainAttackTimer = MainAttackCooldown;
         specialAttackTimer = SpecialAttackCooldown;
     }
-
     public virtual void Update()
     {
-        if (mainAttackTimer < 0)
+        if (!mainAttackReady && mainAttackTimer < 0)
         {
-            mainAttackTimer = MainAttackCooldown;
+            mainAttackReady = true;
         }
 
-        if (specialAttackTimer < 0)
+        if (!specialAttackReady && specialAttackTimer < 0)
         {
-            specialAttackTimer = SpecialAttackCooldown;
+            specialAttackReady = true;
         }
         
         mainAttackTimer -= Time.deltaTime;
@@ -35,8 +42,29 @@ public class EntityBehavior : MonoBehaviour
 
     }
 
-    protected virtual void Attack(EntityBehavior target)
+    protected virtual void MainAttack(EntityBehavior target)
     {
-        
+        mainAttackTimer = MainAttackCooldown;
+        mainAttackReady = false;
+        target.TakeDamage(MainAttackDamage);
     }
+
+    protected virtual void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Die();
+        }
+        OnHealthChanged?.Invoke(currentHealth + damage, currentHealth, MaxHealth);
+    }
+
+    protected virtual void Die()
+    {
+        OnDeath?.Invoke(this);
+    }
+    
+    
 }

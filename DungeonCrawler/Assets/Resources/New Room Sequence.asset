@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: New Room Sequence
   m_EditorClassIdentifier: Assembly-CSharp::RoomSequence
-  Rooms: []
+  Rooms:
+  - {fileID: 11400000, guid: 3baf096c62135154eaa2c97dd0eae283, type: 2}
+  - {fileID: 11400000, guid: 0e68c5ed5e9edcb4597a7444de1615c0, type: 2}
+  - {fileID: 11400000, guid: 6a938c34be837164d9cc6bba1e47c0e1, type: 2}

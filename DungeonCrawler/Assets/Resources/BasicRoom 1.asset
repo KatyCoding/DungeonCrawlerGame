@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Basic Room
-  m_EditorClassIdentifier: Assembly-CSharp::RoomData
-  PossibleEnemies: []
+  m_Script: {fileID: 11500000, guid: f22b90441de977349b6f3576fc418982, type: 3}
+  m_Name: BasicRoom 1
+  m_EditorClassIdentifier: 
+  Theme: 2
+  PossibleEnemies:
+  - {fileID: 2531249036391340703, guid: dcd876eb147e7c6448f207a48e4ef97b, type: 3}
